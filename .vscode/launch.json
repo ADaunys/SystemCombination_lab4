@@ -9,9 +9,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-Server",
-      "program": "${workspaceFolder}/Server/bin/Debug/net6.0/Server.dll",
+      "program": "${workspaceFolder}/Server_REST/bin/Debug/net6.0/Server.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Server",
+      "cwd": "${workspaceFolder}/Server_REST",
       "console": "externalTerminal",
       "stopAtEntry": false
     },
@@ -20,9 +20,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-Fill",
-      "program": "${workspaceFolder}/Fill/bin/Debug/net6.0/Fill.dll",
+      "program": "${workspaceFolder}/Fill_RPC/bin/Debug/net6.0/Fill.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Fill",
+      "cwd": "${workspaceFolder}/Fill_RPC",
       "console": "externalTerminal",
       "stopAtEntry": false
     },
@@ -31,9 +31,31 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-Pump",
-      "program": "${workspaceFolder}/Pump/bin/Debug/net6.0/Pump.dll",
+      "program": "${workspaceFolder}/Pump_gRPC/bin/Debug/net6.0/Pump.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Pump",
+      "cwd": "${workspaceFolder}/Pump_gRPC",
+      "console": "externalTerminal",
+      "stopAtEntry": false
+    },
+    {
+      "name": "FillAdapter",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-FillAdapter",
+      "program": "${workspaceFolder}/Adapter_RPC/bin/Debug/net6.0/RPC_Adapter.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/Adapter_RPC",
+      "console": "externalTerminal",
+      "stopAtEntry": false
+    },
+    {
+      "name": "PumpAdapter",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-PumpAdapter",
+      "program": "${workspaceFolder}/Adapter_gRPC/bin/Debug/net6.0/gRPC_Adapter.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/Adapter_gRPC",
       "console": "externalTerminal",
       "stopAtEntry": false
     }
@@ -41,7 +63,7 @@
   "compounds": [
     {
       "name": "All",
-      "configurations": ["Server", "Pump", "Fill"]
+      "configurations": ["Server", "Pump", "Fill", "PumpAdapter", "FillAdapter"]
     }
   ]
 }
