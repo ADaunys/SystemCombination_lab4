@@ -1,24 +1,24 @@
 ﻿namespace Client;
 
-using System.Net.Http;
-
 using NLog;
+using Grpc.Net.Client;
 
-using ServiceReference;
+//this comes from GRPC generated code
+using Services;
 
 
 /// <summary>
-/// Pump
+/// Client example.
 /// </summary>
-class Pump
+class Client
 {
     /// <summary>
     /// Logger for this class.
     /// </summary>
-    private Logger log = LogManager.GetCurrentClassLogger();
+    Logger log = LogManager.GetCurrentClassLogger();
 
     /// <summary>
-    /// Configure loggin subsystem.
+    /// Configures logging subsystem.
     /// </summary>
     private void ConfigureLogging()
     {
@@ -40,35 +40,39 @@ class Pump
     /// </summary>
     private void Run()
     {
+        //configure logging
         ConfigureLogging();
 
-        //main loop
+        //run everythin in a loop to recover from connection errors
         while (true)
         {
             try
             {
-                //connect to server
-                var service = new PumpService("http://127.0.0.1:5000", new HttpClient());
+                //connect to the server, get service proxy
+                var channel = GrpcChannel.ForAddress("http://127.0.0.1:5000");
+                var client = new Service.ServiceClient(channel);
 
-                //test service
-                var rnd = new Random();
+                //use service
+                var random = new Random();
 
                 while (true)
                 {
-                    var canPump = service.CanSubtractLiquid();
+                    var canPump = client.CanSubtractLiquid(new Empty { }).Value;
 
-                    var liquidToPump = rnd.Next(1, 20);
+                    Thread.Sleep(2000);
+
+                    var liquidToPump = random.Next(1, 20);
 
                     if (canPump)
                     {
-                        log.Info($"Generated amount to pump out: {liquidToPump}");
-                        var pumpedLiquid = service.SubtractLiquid(liquidToPump);
-                        log.Info($"Amount of liquid pumped out: {pumpedLiquid}");
+                        log.Info($"Generated amount to subtract: {liquidToPump}.");
+                        var pumpedLiquid = client.SubtractLiquid(new Liquid { Amount = liquidToPump }).Value;
+                        log.Info($"Amount of liquid subtracted: {pumpedLiquid}.");
                         log.Info("\n");
                     }
                     else
                     {
-                        log.Info("I cannot pump out the liquid");
+                        log.Info("I cannot subtract any more liquid.");
                         log.Info("\n");
                     }
                     log.Info("---");
@@ -78,8 +82,8 @@ class Pump
             }
             catch (Exception e)
             {
-                //log exceptions
-                log.Error(e, "Unhandled exception caught. Restarting.");
+                //log whatever exception to console
+                log.Warn(e, "Unhandled exception caught. Will restart main loop.");
 
                 //prevent console spamming
                 Thread.Sleep(2000);
@@ -93,7 +97,7 @@ class Pump
     /// <param name="args">Command line arguments.</param>
     static void Main(string[] args)
     {
-        var self = new Pump();
+        var self = new Client();
         self.Run();
     }
 }

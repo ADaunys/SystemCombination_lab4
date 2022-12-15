@@ -1,24 +1,27 @@
-﻿namespace Client;
+﻿namespace Clients;
 
-using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+
+using SimpleRpc.Serialization.Hyperion;
+using SimpleRpc.Transports;
+using SimpleRpc.Transports.Http.Client;
 
 using NLog;
 
-using ServiceReference;
-
+using Services;
 
 /// <summary>
-/// Fill
+/// Fill example.
 /// </summary>
 class Fill
 {
     /// <summary>
     /// Logger for this class.
     /// </summary>
-    private Logger log = LogManager.GetCurrentClassLogger();
+    Logger log = LogManager.GetCurrentClassLogger();
 
     /// <summary>
-    /// Configure loggin subsystem.
+    /// Configures logging subsystem.
     /// </summary>
     private void ConfigureLogging()
     {
@@ -40,22 +43,45 @@ class Fill
     /// </summary>
     private void Run()
     {
+        //configure logging
         ConfigureLogging();
 
-        //main loop
+        //run everythin in a loop to recover from connection errors
         while (true)
         {
             try
             {
-                //connect to server
-                var service = new FillService("http://127.0.0.1:5000", new HttpClient());
+                //connect to the server, get service client proxy
+                var sc = new ServiceCollection();
+                sc
+                    .AddSimpleRpcClient(
+                        "service",
+                        new HttpClientTransportOptions
+                        {
+                            Url = "http://127.0.0.1:5000/simplerpc",
+                            Serializer = "HyperionMessageSerializer"
+                        }
+                    )
+                    .AddSimpleRpcHyperionSerializer();
 
-                //test service
+                sc.AddSimpleRpcProxy<IService>("service");
+
+                var sp = sc.BuildServiceProvider();
+
+                var service = sp.GetService<IService>();
+
+                //use service
                 var rnd = new Random();
 
                 while (true)
                 {
+                    var structure = new WaterContainer();
+                    var filledStructure = service.GetBounds(structure);
+                    log.Info($"Upper bound - {filledStructure.UpperBound}");
+                    log.Info($"Lower bound - {filledStructure.LowerBound}");
                     var canAdd = service.CanAddLiquid();
+
+                    Thread.Sleep(2000);
 
                     var liquidToAdd = rnd.Next(1, 20);
 
@@ -78,8 +104,8 @@ class Fill
             }
             catch (Exception e)
             {
-                //log exceptions
-                log.Error(e, "Unhandled exception caught. Restarting.");
+                //log whatever exception to console
+                log.Warn(e, "Unhandled exception caught. Will restart main loop.");
 
                 //prevent console spamming
                 Thread.Sleep(2000);
