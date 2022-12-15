@@ -7,7 +7,7 @@ using Services;
 /// <summary>
 /// Service logic.
 /// </summary>
-class ServiceLogic : IService
+class AdapterLogic : IService
 {
     /// <summary>
     /// Logger for this class.

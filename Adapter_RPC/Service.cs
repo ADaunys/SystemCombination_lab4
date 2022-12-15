@@ -16,7 +16,7 @@ public class Service : IService
     /// <summary>
     /// Service logic implementation.
     /// </summary>
-    private ServiceLogic logic = new ServiceLogic();
+    private AdapterLogic logic = new AdapterLogic();
 
     /// <summary>
     /// Check if liquid can be added to the capacity
