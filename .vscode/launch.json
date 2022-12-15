@@ -63,7 +63,7 @@
   "compounds": [
     {
       "name": "All",
-      "configurations": ["Server", "Pump", "Fill", "PumpAdapter", "FillAdapter"]
+      "configurations": ["Server", "Fill", "Pump", "FillAdapter", "PumpAdapter"]
     }
   ]
 }

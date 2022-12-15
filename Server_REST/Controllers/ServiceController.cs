@@ -72,16 +72,4 @@ public class ServiceController : ControllerBase
             return logic.SubtractLiquid(amount);
         }
     }
-
-    // palikta kaip pavyzdys
-
-    // [HttpGet]
-    // [Route("AddLiteral/{left}")]
-    // public ActionResult<int> AddLiteral([FromRoute] int left, [FromQuery] int right)
-    // {
-    //     lock (logic)
-    //     {
-    //         return logic.AddLiteral(left, right);
-    //     }
-    // }
 }

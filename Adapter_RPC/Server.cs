@@ -63,13 +63,12 @@ public class Server
         //start the server
         StartServer(args);
 
-        // while loop that does something every 2 seconds
+        Console.WriteLine();
+        Console.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")} - RPC adapter is running");
+        Console.WriteLine();
         while (true)
         {
-            lowerBound = new Random().Next(0, 50);
-            upperBound = new Random().Next(lowerBound + 1, 100);
-            log.Info("Bounds changed to: " + lowerBound + " " + upperBound);
-            Thread.Sleep(4000);
+            Thread.Sleep(1000);
         }
     }
 
@@ -85,7 +84,7 @@ public class Server
         //configure integrated server
         builder.WebHost.ConfigureKestrel(opts =>
         {
-            opts.Listen(IPAddress.Loopback, 5000);
+            opts.Listen(IPAddress.Loopback, 5001);
         });
 
         //add SimpleRPC services
