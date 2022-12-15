@@ -17,7 +17,7 @@ class ServiceLogic : IService
     public bool CanAddLiquid()
     {
         Console.WriteLine();
-        Console.WriteLine($"Forwarding CanAddLiquid() request from gRPC client to REST server");
+        Console.WriteLine($"Forwarding CanAddLiquid() request from RPC client to REST server");
         Console.WriteLine();
 
         var service = new FillService("http://127.0.0.1:5000", new HttpClient());
@@ -27,7 +27,7 @@ class ServiceLogic : IService
     public int AddLiquid(int amount)
     {
         Console.WriteLine();
-        Console.WriteLine($"Forwarding AddLiquid() request from gRPC client to REST server");
+        Console.WriteLine($"Forwarding AddLiquid() request from RPC client to REST server");
         Console.WriteLine();
 
         var service = new FillService("http://127.0.0.1:5000", new HttpClient());
