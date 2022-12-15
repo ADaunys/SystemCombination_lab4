@@ -9,8 +9,6 @@ service Service {
     //this is will translate into a service operation
     rpc CanSubtractLiquid(Empty) returns (CanSubtractLiquidOutput) {}
     rpc SubtractLiquid(Liquid) returns (AddOutput) {}
-    rpc CanAddLiquid(Empty) returns (CanAddLiquidOutput) {}
-    rpc AddLiquid(Liquid) returns (AddOutput) {}
 }
 
 message Empty {}
@@ -24,9 +22,5 @@ message AddOutput {
 }
 
 message CanSubtractLiquidOutput {
-    bool value = 1;
-}
-
-message CanAddLiquidOutput {
     bool value = 1;
 }

@@ -75,10 +75,6 @@ class Fill
 
                 while (true)
                 {
-                    var structure = new WaterContainer();
-                    var filledStructure = service.GetBounds(structure);
-                    log.Info($"Upper bound - {filledStructure.UpperBound}");
-                    log.Info($"Lower bound - {filledStructure.LowerBound}");
                     var canAdd = service.CanAddLiquid();
 
                     Thread.Sleep(2000);

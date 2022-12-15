@@ -11,6 +11,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ServiceContract\ServiceContract.csproj"/>
+		<ProjectReference Include="..\Adapter_RPC_Contract\ServiceContract.csproj"/>
 	</ItemGroup>
 </Project>
