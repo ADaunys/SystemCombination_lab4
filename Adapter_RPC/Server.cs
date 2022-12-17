@@ -84,7 +84,7 @@ public class Server
         //configure integrated server
         builder.WebHost.ConfigureKestrel(opts =>
         {
-            opts.Listen(IPAddress.Loopback, 5001);
+            opts.Listen(IPAddress.Loopback, 5002);
         });
 
         //add SimpleRPC services
